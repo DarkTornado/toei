@@ -9,6 +9,7 @@
         margin: 0px;
         font-family: NanumGothic;
     }
+
     div.header {
         padding: 12px;
         color: white;
@@ -16,11 +17,13 @@
         font-size: 22px;
         box-shadow: 1px 2px 4px 1px rgba(0, 0, 0, 0.3);
     }
+
     div.body {
         padding: 12px;
-        margin:  0px auto;
+        margin: 0px auto;
         max-width: 768px;
     }
+
     div.footer {
         margin: 0px;
     }
@@ -30,6 +33,7 @@
         border: 1px solid #000000;
         border-collapse: collapse;
     }
+
     td {
         width: 25%;
         border: 1px solid #000000;
@@ -37,9 +41,11 @@
         padding: 8px;
         vertical-align: middle;
     }
-    tr.lines > td {
+
+    tr.lines>td {
         font-size: 18px;
     }
+
     img {
         height: 22px;
         margin: 4px;
@@ -51,6 +57,7 @@
         font-size: 14px;
     }
 </style>
+
 <body>
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css" rel="stylesheet">
     <div class=header>
@@ -59,10 +66,10 @@
     <div class=body>
         <table>
             <tr class=lines>
-                <td><img src='./images/A.png'>아사쿠사선</td>
-                <td><img src='./images/I.png'>미타선</td>
-                <td><img src='./images/S.png'>신주쿠선</td>
-                <td><img src='./images/E.png'>오에도선</td>
+                <td onclick='loadData("A");'><img src='./images/A.png'>아사쿠사선</td>
+                <td onclick='loadData("I");'><img src='./images/I.png'>미타선</td>
+                <td onclick='loadData("S");'><img src='./images/S.png'>신주쿠선</td>
+                <td onclick='loadData("E");'><img src='./images/E.png'>오에도선</td>
             </tr>
         </table>
     </div>
@@ -70,7 +77,17 @@
         <p class=copyright>© 2023 Dark Tornado, All rights reserved.</p>
     </div>
     <script>
-        
+        function loadData(lineCode) {
+            fetch('https://api.darktornado.net/subway/jp/toei?line=' + lineCode)
+                .then((response) => response.json())
+                .then((data) => {
+                    createMap(data);
+                });
+        }
+
+        function createMap(data) {
+            alert(JSON.stringify(data));
+        }
     </script>
 </body>
 
