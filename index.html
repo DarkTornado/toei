@@ -72,6 +72,8 @@
                 <td onclick='loadData("E");'><img src='./images/E.png'>오에도선</td>
             </tr>
         </table>
+        <div id='map'></div>
+        <hr>
     </div>
     <div class=footer>
         <p class=copyright>© 2023 Dark Tornado, All rights reserved.</p>
@@ -86,7 +88,21 @@
         }
 
         function createMap(data) {
-            alert(JSON.stringify(data));
+            var m = 60;
+            var src = '<svg viewbox="0 0 800 '+(m*data.length)+'" >';
+            data.forEach((e, i) => {
+                src += text(100, m*i + 40, e.stn, '#000000', 20);
+            });
+            document.getElementById('map').innerHTML = src;
+        }
+        
+        function text(x, y, stn, color, size, align){
+            if (align == undefined) align = 'start';
+            var style = '"';
+            style += 'font-size: '+size+'px;'
+            style += 'text-anchor: '+align+';'
+            style += '"';
+            return '<text style='+style+' x='+x+' y='+y+' fill='+color+'\'>'+stn+'</text>';
         }
     </script>
 </body>
