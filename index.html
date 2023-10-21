@@ -32,6 +32,7 @@
         width: 100%;
         border: 1px solid #000000;
         border-collapse: collapse;
+        margin: 0px;
     }
 
     td {
@@ -50,6 +51,21 @@
         height: 22px;
         margin: 4px;
         vertical-align: middle;
+    }
+
+    div#map {
+        padding: 8px;
+    }
+
+    line,
+    polyline {
+        stroke-width: 5px;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+    }
+
+    hr {
+        margin: 0px;
     }
 
     p.copyright {
@@ -83,26 +99,44 @@
             fetch('https://api.darktornado.net/subway/jp/toei?line=' + lineCode)
                 .then((response) => response.json())
                 .then((data) => {
-                    createMap(data);
+                    createMap(data, lineCode);
                 });
         }
 
-        function createMap(data) {
-            var m = 60;
-            var src = '<svg viewbox="0 0 800 '+(m*data.length)+'" >';
+        function createMap(data, lineCode) {
+            var m = 100;
+            var height = m * data.length;
+            var color = {
+                'A': '#FF535F',
+                'I': '#0067B0',
+                'S': '#9FB01C',
+                // 'E': '#CF3366'
+            };
+            var src = '<svg viewbox="0 0 600 ' + height + '" >';
+            src += '<line x1="50" y1="10" x2="50" y2="' + (height - 10) + '" stroke="' + color[lineCode] + '" />';
             data.forEach((e, i) => {
-                src += text(100, m*i + 40, e.stn, '#000000', 20);
+                src += text(100, m * i + m / 2, e.stn, '#000000', 30);
+                src += train(50, m * i + m / 2, e.up, 'up');
+                src += train(150, m * i + m / 2, e.dn, 'dn');
             });
             document.getElementById('map').innerHTML = src;
         }
-        
-        function text(x, y, stn, color, size, align){
+
+        function text(x, y, stn, color, size, align) {
             if (align == undefined) align = 'start';
             var style = '"';
-            style += 'font-size: '+size+'px;'
-            style += 'text-anchor: '+align+';'
+            style += 'font-size: ' + size + 'px;'
+            style += 'text-anchor: ' + align + ';'
             style += '"';
-            return '<text style='+style+' x='+x+' y='+y+' fill='+color+'\'>'+stn+'</text>';
+            return '<text style=' + style + ' x=' + x + ' y=' + y + ' fill=' + color + '\'>' + stn + '</text>';
+        }
+
+        function train(x, y, data, updn) {
+            if (data.length == 0) return '';
+            y -= 30;
+            x -= updn == 'up' ? 40 : 80;
+            var file = "images/train_" + updn + "_" + (data[0].type == '보통' ? 0 : 1) + ".png";
+            return "<image xlink:href='" + file + "' x='" + x + "' y='" + y + "' width='20px'/>";
         }
     </script>
 </body>
