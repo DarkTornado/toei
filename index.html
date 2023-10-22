@@ -126,7 +126,7 @@
             var src = '<svg viewbox="0 0 600 ' + height + '" >';
             src += '<line x1="50" y1="10" x2="50" y2="' + (height - 10) + '" stroke="' + color[lineCode] + '" />';
             data.forEach((e, i) => {
-                src += text(100, m * i + m / 2, e.stn, '#000000', 30);
+                src += text(120, m * i + m / 2, e.stn, '#000000', 30);
                 src += train(50, m * i + m / 2, e.up, 'up');
                 src += train(150, m * i + m / 2, e.dn, 'dn');
             });
