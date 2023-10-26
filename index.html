@@ -137,13 +137,26 @@
         function createOedoLine(data) {
             var m = 100;
             var height = m * data.length;
-            var src = '<svg viewbox="0 0 600 ' + height + '" >';
-            src += '<line x1="50" y1="10" x2="50" y2="' + (height - 10) + '" stroke="#CF3366" />';
-            data.forEach((e, i) => {
-                src += text(120, m * i + m / 2, e.stn, '#000000', 30);
-                src += train(50, m * i + m / 2, e.up, 'up');
-                src += train(150, m * i + m / 2, e.dn, 'dn');
-            });
+            var src = '<svg viewbox="0 0 600 2520" >';
+			src += '<polyline points="50,10 50,2500 550,2500 550,1090 50,1090" fill="none" stroke="#CF3366" />';
+			for (var n = 0; n < 14; n++) {
+				var y = m * n + m + m*10;
+                src += text(480, y, data[n].stn, '#000000', 20, 'end');
+                //src += train(550, y, data[n].up, 'up');
+                //src += train(450, y, data[n].dn, 'dn');
+			}
+			for (var n = 14; n < 29; n++) {
+				var y = m*data.length - (m * n + m / 2);
+                src += text(120, y, data[n].stn, '#000000', 20);
+                src += train(50, y, data[n].up, 'up');
+                src += train(150, y, data[n].dn, 'dn');
+			}
+			for (var n = 29; n < data.length; n++) {
+				var y = m*data.length - (m * n + m / 2);
+                src += text(120, y, data[n].stn, '#000000', 20);
+                src += train(50, y, data[n].up, 'up');
+                src += train(150, y, data[n].dn, 'dn');
+			}
             document.getElementById('map').innerHTML = src;
         }
 
