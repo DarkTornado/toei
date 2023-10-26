@@ -138,22 +138,29 @@
             var m = 100;
             var height = m * data.length;
             var src = '<svg viewbox="0 0 600 2520" >';
-			src += '<polyline points="50,10 50,2500 550,2500 550,1090 50,1090" fill="none" stroke="#CF3366" />';
-			for (var n = 0; n < 14; n++) {
+			src += '<polyline points="50,10 50,2490 60,2500 540,2500 550,2490 550,1100 540,1090 160,1090 150,1080 150,1020" fill="none" stroke="#CF3366" />';
+			for (var n = 1; n < 14; n++) {
 				var y = m * n + m + m*10;
-                src += text(500, y, data[n].stn, '#000000', 20, 'end');
+                src += text(500, y, data[n].stn, '#000000', 24, 'end');
                 src += train(520, y, data[n].up, 'up');
                 src += train(580, y, data[n].dn, 'dn');
 			}
-			for (var n = 14; n < 29; n++) {
+			for (var n = 14; n < 28; n++) {
 				var y = m*data.length - (m * n + m / 2);
-                src += text(100, y, data[n].stn, '#000000', 20);
+                src += text(100, y, data[n].stn, '#000000', 24);
                 src += train(70, y, data[n].up, 'dn');
                 src += train(30, y, data[n].dn, 'up');
 			}
+			var n = 28;
+			var y = m*data.length - (m * n + m / 2);
+            src += text(200, y, data[n].stn, '#000000', 30);
+            src += train(70, y, data[n].up, 'dn');
+            src += train(30, y, data[n].dn, 'up');
+            src += train(170, y, data[0].up, 'up');
+            src += train(130, y, data[0].dn, 'dn');
 			for (var n = 29; n < data.length; n++) {
 				var y = m*data.length - (m * n + m / 2);
-                src += text(100, y, data[n].stn, '#000000', 20);
+                src += text(100, y, data[n].stn, '#000000', 30);
                 src += train(70, y, data[n].up, 'dn');
                 src += train(30, y, data[n].dn, 'up');
 			}
