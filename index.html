@@ -127,9 +127,9 @@
             var src = '<svg viewbox="0 0 600 ' + height + '" >';
             src += '<line x1="50" y1="10" x2="50" y2="' + (height - 10) + '" stroke="' + color[lineCode] + '" />';
             data.forEach((e, i) => {
-                src += text(120, m * i + m / 2, e.stn, '#000000', 30);
-                src += train(50, m * i + m / 2, e.up, 'up');
-                src += train(150, m * i + m / 2, e.dn, 'dn');
+                src += text(100, m * i + m / 2, e.stn, '#000000', 30);
+                src += train(30, m * i + m / 2, e.up, 'up');
+                src += train(70, m * i + m / 2, e.dn, 'dn');
             });
             document.getElementById('map').innerHTML = src;
         }
@@ -171,8 +171,8 @@
 
         function train(x, y, data, updn) {
             if (data.length == 0) return '';
+            x -= 10;
             y -= 30;
-            x -= updn == 'up' ? 40 : 80;
             var file = "images/train_" + updn + "_" + (data[0].type == '보통' ? 0 : 1) + ".png";
             return "<image xlink:href='" + file + "' x='" + x + "' y='" + y + "' width='20px'/>";
         }
