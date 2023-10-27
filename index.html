@@ -156,8 +156,8 @@
             src += text(200, y, data[n].stn, '#000000', 30);
             src += train(70, y, data[n].up, 'dn');
             src += train(30, y, data[n].dn, 'up');
-            src += train(170, y, data[0].up, 'up');
-            src += train(130, y, data[0].dn, 'dn');
+            src += train(170, y, data[0].up, 'dn');
+            src += train(130, y, data[0].dn, 'up');
 			for (var n = 29; n < data.length; n++) {
 				var y = m*data.length - (m * n + m / 2);
                 src += text(100, y, data[n].stn, '#000000', 30);
