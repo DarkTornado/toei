@@ -54,11 +54,35 @@
         display: inline;
     }
 
+    table#help {
+        margin-top: 16px;
+    }
+
+    td.title {
+        font-size: 20px;
+        font-weight: bold;
+        background-color: #C8E6C9;
+    }
+
+    td.body {
+        font-size: 18px;
+        text-align: start;
+    }
+
+    p {
+        margin-top: 2px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
     div#map {
         padding: 8px;
     }
 
-    line, polyline {
+    line,
+    polyline {
         stroke-width: 5px;
         stroke-linejoin: round;
         stroke-linecap: round;
@@ -99,7 +123,20 @@
                 <td onclick='loadData("E");'><img src='./images/E.png'>오에도선</td>
             </tr>
         </table>
-        <div id='map'></div>
+
+        <table id=help>
+            <tr>
+                <td class=title colspan=2>도움말</td>
+            </tr>
+            <tr>
+                <td class=body colspan=2>
+                    <p>&nbsp;&nbsp;위에 있는 노선 아이콘이나 이름을 누르면 해당 노선의 실시간 운행 정보를 확인할 수 있어요. 열차 위치가 자동으로 새로고침되지는 않아요.</p>
+                    <p>&nbsp;&nbsp;열차 운행 정보는 <a href='https://ckan.odpt.org/en/dataset/r_train_location-toei/resource/431564fc-adf4-4b6c-8210-e82175078b3e'>일본 대중교통 오픈 데이터 센터에서 제공하는 Open API</a>를 통해 받아오고, <a href='https://hangeul.naver.com/font/nanum'>네이버에서 제공하는 나눔글꼴</a>을 사용하고 있어요.</p>
+                </td>
+            </tr>
+        </table>
+        <div id='map'>
+        </div>
         <hr>
     </div>
     <div class=footer>
@@ -115,6 +152,7 @@
         }
 
         function createMap(data, lineCode) {
+            document.getElementById('help').style.display = 'none';
             if (lineCode == 'E') return createOedoLine(data);
             var m = 100;
             var height = m * data.length;
@@ -138,32 +176,32 @@
             var m = 100;
             var height = m * data.length;
             var src = '<svg viewbox="0 0 600 2520" >';
-			src += '<polyline points="50,10 50,2490 60,2500 540,2500 550,2490 550,1100 540,1090 160,1090 150,1080 150,1020" fill="none" stroke="#CF3366" />';
-			for (var n = 1; n < 14; n++) {
-				var y = m * n + m + m*10;
+            src += '<polyline points="50,10 50,2490 60,2500 540,2500 550,2490 550,1100 540,1090 160,1090 150,1080 150,1020" fill="none" stroke="#CF3366" />';
+            for (var n = 1; n < 14; n++) {
+                var y = m * n + m + m * 10;
                 src += text(500, y, data[n].stn, '#000000', 24, 'end');
                 src += train(520, y, data[n].up, 'up');
                 src += train(580, y, data[n].dn, 'dn');
-			}
-			for (var n = 14; n < 28; n++) {
-				var y = m*data.length - (m * n + m / 2);
+            }
+            for (var n = 14; n < 28; n++) {
+                var y = m * data.length - (m * n + m / 2);
                 src += text(100, y, data[n].stn, '#000000', 24);
                 src += train(70, y, data[n].up, 'dn');
                 src += train(30, y, data[n].dn, 'up');
-			}
-			var n = 28;
-			var y = m*data.length - (m * n + m / 2);
+            }
+            var n = 28;
+            var y = m * data.length - (m * n + m / 2);
             src += text(200, y, data[n].stn, '#000000', 30);
             src += train(70, y, data[n].up, 'dn');
             src += train(30, y, data[n].dn, 'up');
             src += train(170, y, data[0].up, 'dn');
             src += train(130, y, data[0].dn, 'up');
-			for (var n = 29; n < data.length; n++) {
-				var y = m*data.length - (m * n + m / 2);
+            for (var n = 29; n < data.length; n++) {
+                var y = m * data.length - (m * n + m / 2);
                 src += text(100, y, data[n].stn, '#000000', 30);
                 src += train(70, y, data[n].up, 'dn');
                 src += train(30, y, data[n].dn, 'up');
-			}
+            }
             document.getElementById('map').innerHTML = src;
         }
 
