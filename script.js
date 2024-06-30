@@ -30,17 +30,17 @@ function createMap(data, lineCode) {
 function createOedoLine(data) {
     var m = 100;
     var height = m * data.length;
-    var src = '<svg viewbox="0 0 600 2520" >';
-    src += '<polyline points="50,10 50,2490 60,2500 540,2500 550,2490 550,1100 540,1090 160,1090 150,1080 150,1020" fill="none" stroke="#CF3366" />';
+    var src = '<svg viewbox="0 0 600 2570" >';
+    src += '<polyline points="50,10 50,2540 60,2550 540,2550 550,2540 550,1110 540,1100 160,1100 150,1090 150,1020" fill="none" stroke="#CF3366" />';
     for (var n = 1; n < 14; n++) {
         var y = m * n + m + m * 10;
-        src += text(500, y, data[n].stn, '#000000', 24, 'end');
+        src += text(500, y, data[n].stn, '#000000', 26, 'end', true);
         src += train(520, y, data[n].up, 'up');
         src += train(580, y, data[n].dn, 'dn');
     }
     for (var n = 14; n < 28; n++) {
-        var y = m * data.length - (m * n + m / 2);
-        src += text(100, y, data[n].stn, '#000000', 24);
+        var y = m * data.length - (m * n);
+        src += text(100, y, data[n].stn, '#000000', 26, 'start', true);
         src += train(70, y, data[n].up, 'dn');
         src += train(30, y, data[n].dn, 'up');
     }
@@ -60,13 +60,20 @@ function createOedoLine(data) {
     document.getElementById('map').innerHTML = src;
 }
 
-function text(x, y, stn, color, size, align) {
+function text(x, y, stn, color, size, align, multiLine) {
     if (align == undefined) align = 'start';
     var style = '"';
-    style += 'font-size: ' + size + 'px;'
+    style += 'font-size: ' + size + 'px;';
     style += 'text-anchor: ' + align + ';'
     style += '"';
-    return '<text style=' + style + ' x=' + x + ' y=' + y + ' fill=' + color + '\'>' + stn + '</text>';
+    if (!multiLine) return '<text style=' + style + ' x=' + x + ' y=' + y + ' fill=' + color + '\'>' + stn + '</text>';
+	var stn = stn.split(' (');
+    var style2 = '"';
+    style2 += 'font-size: ' + (size-4) + 'px;';
+    style2 += 'text-anchor: ' + align + ';'
+    style2 += '"';
+    return '<text style=' + style + ' x=' + x + ' y=' + (y-12) + ' fill=' + color + '\'>' + stn[0] + '</text>'
+	    +'<text style=' + style2 + ' x=' + x + ' y=' + (y+12) + ' fill=' + color + '\'>(' + stn[1] + '</text>';
 }
 
 function train(x, y, data, updn) {
